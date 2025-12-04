@@ -1,0 +1,25 @@
+/* IRANSansX Variable Font */
+@font-face {
+    font-family: "IRANSansX";
+    src: url("./IranSansX/IRANSansXV.woff2") format("woff2-variations"), url("./IranSansX/IRANSansXV.woff") format("woff-variations");
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* YekanBakh Variable Font */
+@font-face {
+    font-family: "YekanBakhVF";
+    src: url("./YekanBakh/YekanBakhVF.woff2") format("woff2-variations"), url("./YekanBakh/YekanBakhVF.woff") format("woff-variations");
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "YekanBakhFaNumVF";
+    src: url("./YekanBakh/YekanBakhFaNumVF.woff2") format("woff2-variations"), url("./YekanBakh/YekanBakhFaNumVF.woff") format("woff-variations");
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+}
