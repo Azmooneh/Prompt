@@ -64,7 +64,7 @@ withDefaults(
                     </p>
                     <ul class="mb-4 flex flex-col lg:mb-6">
                         <li
-                            class="relative flex items-center gap-4 py-2 before:absolute before:top-1/2 before:bottom-0 before:left-[0.4rem] before:border-l before:border-[#e3e3e0] dark:before:border-[#3E3E3A]"
+                            class="relative flex items-center gap-4 py-2 before:absolute before:top-1/2 before:bottom-0 before:start-[0.4rem] before:border-s before:border-[#e3e3e0] dark:before:border-[#3E3E3A]"
                         >
                             <span
                                 class="relative bg-white py-1 dark:bg-[#161615]"
@@ -82,7 +82,7 @@ withDefaults(
                                 <a
                                     href="https://laravel.com/docs"
                                     target="_blank"
-                                    class="ml-1 inline-flex items-center space-x-1 font-medium text-[#f53003] underline underline-offset-4 dark:text-[#FF4433]"
+                                    class="ms-1 inline-flex items-center space-x-1 font-medium text-[#f53003] underline underline-offset-4 dark:text-[#FF4433]"
                                 >
                                     <span>Documentation</span>
                                     <svg
@@ -103,7 +103,7 @@ withDefaults(
                             </span>
                         </li>
                         <li
-                            class="relative flex items-center gap-4 py-2 before:absolute before:top-0 before:bottom-1/2 before:left-[0.4rem] before:border-l before:border-[#e3e3e0] dark:before:border-[#3E3E3A]"
+                            class="relative flex items-center gap-4 py-2 before:absolute before:top-0 before:bottom-1/2 before:start-[0.4rem] before:border-s before:border-[#e3e3e0] dark:before:border-[#3E3E3A]"
                         >
                             <span
                                 class="relative bg-white py-1 dark:bg-[#161615]"
@@ -121,7 +121,7 @@ withDefaults(
                                 <a
                                     href="https://laracasts.com"
                                     target="_blank"
-                                    class="ml-1 inline-flex items-center space-x-1 font-medium text-[#f53003] underline underline-offset-4 dark:text-[#FF4433]"
+                                    class="ms-1 inline-flex items-center space-x-1 font-medium text-[#f53003] underline underline-offset-4 dark:text-[#FF4433]"
                                 >
                                     <span>Laracasts</span>
                                     <svg

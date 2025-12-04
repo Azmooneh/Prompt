@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Laravel\Fortify\Features;
@@ -17,5 +18,9 @@ Route::get('dashboard', function () {
 Route::get('test', function () {
     return Inertia::render('Test');
 })->middleware(['auth', 'verified'])->name('test');
+
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::resource('users', UserController::class);
+});
 
 require __DIR__.'/settings.php';

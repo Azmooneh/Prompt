@@ -11,17 +11,33 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
+import UserController from '@/actions/App/Http/Controllers/UserController';
+import { getLocaleDirection } from '@/composables/translationConfig';
+import { useLocale } from '@/composables/useLocale';
 import { dashboard, test } from '@/routes';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/vue3';
 import { BookOpen, Folder, LayoutGrid, Users, FlaskConical } from 'lucide-vue-next';
+import { computed } from 'vue';
 import AppLogo from './AppLogo.vue';
+
+const { locale } = useLocale();
+
+const sidebarSide = computed(() => {
+    const direction = getLocaleDirection(locale.value);
+    return direction === 'RTL' ? 'right' : 'left';
+});
 
 const mainNavItems: NavItem[] = [
     {
         title: 'Dashboard',
         href: dashboard(),
         icon: LayoutGrid,
+    },
+    {
+        title: 'Users',
+        href: UserController.index.url(),
+        icon: Users,
     },
     {
         title: 'Test',
@@ -45,7 +61,7 @@ const footerNavItems: NavItem[] = [
 </script>
 
 <template>
-    <Sidebar collapsible="icon" variant="inset">
+    <Sidebar :side="sidebarSide" collapsible="icon" variant="inset">
         <SidebarHeader>
             <SidebarMenu>
                 <SidebarMenuItem>
