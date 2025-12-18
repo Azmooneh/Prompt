@@ -11,10 +11,10 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import UserController from '@/actions/App/Http/Controllers/UserController';
 import { getLocaleDirection } from '@/composables/translationConfig';
 import { useLocale } from '@/composables/useLocale';
 import { dashboard, test } from '@/routes';
+import { index as usersIndex } from '@/routes/users';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/vue3';
 import { BookOpen, Folder, LayoutGrid, Users, FlaskConical } from 'lucide-vue-next';
@@ -36,7 +36,7 @@ const mainNavItems: NavItem[] = [
     },
     {
         title: 'Users',
-        href: UserController.index.url(),
+        href: usersIndex(),
         icon: Users,
     },
     {

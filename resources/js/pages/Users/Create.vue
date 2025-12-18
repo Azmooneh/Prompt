@@ -1,108 +1,80 @@
 <script setup lang="ts">
-import UserController from '@/actions/App/Http/Controllers/UserController';
-import InputError from '@/components/InputError.vue';
+import AppLayout from '@/layouts/AppLayout.vue';
+import { Head, useForm, Link } from '@inertiajs/vue3';
+import { type BreadcrumbItem } from '@/types';
 import { Button } from '@/components/ui/button';
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
-} from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import AppLayout from '@/layouts/AppLayout.vue';
-import { type BreadcrumbItem } from '@/types';
-import { Form, Head, Link } from '@inertiajs/vue3';
+import InputError from '@/components/InputError.vue';
+import { index, store } from '@/routes/users';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Users',
-        href: UserController.index.url(),
+        href: index().url,
     },
     {
-        title: 'Create User',
-        href: UserController.create.url(),
+        title: 'Create',
+        href: '#',
     },
-];</script>
+];
+
+const form = useForm({
+    name: '',
+    email: '',
+    password: '',
+    password_confirmation: '',
+});
+
+const submit = () => {
+    form.post(store().url, {
+        onFinish: () => form.reset('password', 'password_confirmation'),
+    });
+};
+</script>
 
 <template>
     <Head title="Create User" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
-        <div class="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-            <Card>
-                <CardHeader>
-                    <CardTitle>Create User</CardTitle>
-                    <CardDescription>Add a new user to the system</CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <Form
-                        :action="UserController.store.url()"
-                        method="post"
-                        class="space-y-6"
-                        v-slot="{ errors, processing }"
-                    >
-                        <div class="grid gap-2">
-                            <Label for="name">Name</Label>
-                            <Input
-                                id="name"
-                                name="name"
-                                required
-                                autocomplete="name"
-                                placeholder="Full name"
-                            />
-                            <InputError :message="errors.name" />
-                        </div>
+        <div class="flex flex-col gap-4 p-4 max-w-2xl">
+            <h1 class="text-2xl font-semibold">Create User</h1>
 
-                        <div class="grid gap-2">
-                            <Label for="email">Email</Label>
-                            <Input
-                                id="email"
-                                type="email"
-                                name="email"
-                                required
-                                autocomplete="email"
-                                placeholder="Email address"
-                            />
-                            <InputError :message="errors.email" />
-                        </div>
+            <form @submit.prevent="submit" class="space-y-6">
+                <div class="space-y-2">
+                    <Label for="name">Name</Label>
+                    <Input id="name" v-model="form.name" required autofocus />
+                    <InputError :message="form.errors.name" />
+                </div>
 
-                        <div class="grid gap-2">
-                            <Label for="password">Password</Label>
-                            <Input
-                                id="password"
-                                type="password"
-                                name="password"
-                                required
-                                autocomplete="new-password"
-                                placeholder="Password"
-                            />
-                            <InputError :message="errors.password" />
-                        </div>
+                <div class="space-y-2">
+                    <Label for="email">Email</Label>
+                    <Input id="email" type="email" v-model="form.email" required />
+                    <InputError :message="form.errors.email" />
+                </div>
 
-                        <div class="grid gap-2">
-                            <Label for="password_confirmation">Confirm Password</Label>
-                            <Input
-                                id="password_confirmation"
-                                type="password"
-                                name="password_confirmation"
-                                required
-                                autocomplete="new-password"
-                                placeholder="Confirm password"
-                            />
-                            <InputError :message="errors.password_confirmation" />
-                        </div>
+                <div class="space-y-2">
+                    <Label for="password">Password</Label>
+                    <Input id="password" type="password" v-model="form.password" required />
+                    <InputError :message="form.errors.password" />
+                </div>
 
-                        <div class="flex items-center gap-4">
-                            <Button :disabled="processing">Create User</Button>
-                            <Link :href="UserController.index.url()">
-                                <Button variant="outline" type="button">Cancel</Button>
-                            </Link>
-                        </div>
-                    </Form>
-                </CardContent>
-            </Card>
+                <div class="space-y-2">
+                    <Label for="password_confirmation">Confirm Password</Label>
+                    <Input id="password_confirmation" type="password" v-model="form.password_confirmation" required />
+                    <InputError :message="form.errors.password_confirmation" />
+                </div>
+
+                <div class="flex items-center gap-4">
+                    <Button type="submit" :disabled="form.processing">
+                        Create User
+                    </Button>
+                    <Button variant="outline" as-child>
+                        <Link :href="index().url">Cancel</Link>
+                    </Button>
+                </div>
+            </form>
         </div>
     </AppLayout>
 </template>
+

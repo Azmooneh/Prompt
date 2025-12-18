@@ -18,33 +18,11 @@ class UserController extends Controller
      */
     public function index(Request $request): Response
     {
-        $query = User::query();
-
-        // Search functionality
-        if ($request->has('search') && $request->search) {
-            $search = $request->search;
-            $query->where(function ($q) use ($search) {
-                $q->where('name', 'like', "%{$search}%")
-                    ->orWhere('email', 'like', "%{$search}%");
-            });
-        }
-
-        // Sorting
-        $sortBy = $request->get('sort_by', 'created_at');
-        $sortOrder = $request->get('sort_order', 'desc');
-
-        if (in_array($sortBy, ['id', 'name', 'email', 'created_at'])) {
-            $query->orderBy($sortBy, $sortOrder);
-        } else {
-            $query->orderBy('created_at', 'desc');
-        }
-
-        $users = $query->paginate($request->get('per_page', 15))
-            ->withQueryString();
-
         return Inertia::render('Users/Index', [
-            'users' => $users,
-            'filters' => $request->only(['search', 'sort_by', 'sort_order', 'per_page']),
+            'users' => User::query()
+                ->latest()
+                ->paginate($request->integer('per_page', 10))
+                ->withQueryString(),
         ]);
     }
 
@@ -72,16 +50,6 @@ class UserController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(User $user): Response
-    {
-        return Inertia::render('Users/Show', [
-            'user' => $user,
-        ]);
-    }
-
-    /**
      * Show the form for editing the specified resource.
      */
     public function edit(User $user): Response
@@ -96,14 +64,16 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user): RedirectResponse
     {
-        $user->name = $request->name;
-        $user->email = $request->email;
+        $user->update([
+            'name' => $request->name,
+            'email' => $request->email,
+        ]);
 
         if ($request->filled('password')) {
-            $user->password = Hash::make($request->password);
+            $user->update([
+                'password' => Hash::make($request->password),
+            ]);
         }
-
-        $user->save();
 
         return redirect()->route('users.index')
             ->with('success', 'User updated successfully.');
@@ -114,12 +84,6 @@ class UserController extends Controller
      */
     public function destroy(User $user): RedirectResponse
     {
-        // Prevent deleting yourself
-        if ($user->id === auth()->id()) {
-            return redirect()->route('users.index')
-                ->with('error', 'You cannot delete your own account.');
-        }
-
         $user->delete();
 
         return redirect()->route('users.index')
